@@ -1,0 +1,83 @@
+---
+name: Release
+on:
+  push:
+    tags:
+      - '*'
+permissions :
+  contents: write
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: gcc puissance.c -o puissance-windows.exe
+      - name: Upload
+        uses: actions/upload-artifact@master
+        with:
+          name: puissance-windows
+          path: ./puissance-windows.exe
+
+  build-macos:
+      runs-on: macos-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Build
+          run: gcc puissance.c -o puissance-macos
+        - name: Upload
+          uses: actions/upload-artifact@master
+          with:
+            name: puissance-macos
+            path: ./puissance-macos
+
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: gcc puissance.c -o puissance-linux.bin
+      - name: Upload
+        uses: actions/upload-artifact@master
+        with:
+          name: puissance-ubuntu
+          path: ./puissance-linux.bin
+
+  download-exec_release:
+    needs: [build-windows,build-macos,build-ubuntu]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download puissance-windows artifact
+        uses: actions/download-artifact@master
+        with:
+          name: puissance-windows
+      - name: Download puissance-macos artifact
+        uses: actions/download-artifact@master
+        with:
+          name: puissance-macos
+      - name: Download puissance-ubuntu artifact
+        uses: actions/download-artifact@master
+        with:
+          name: puissance-ubuntu
+      - name: checkoutRepository
+        uses: actions/checkout@v4
+      - name: setupJava
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'oracle'
+      - name: version
+        run: mvn versions:set -DnewVersion=${{ github.ref_name }} -DgenerateBackupPoms=false
+      - name: package
+        run: mvn package
+      - name: release Creation
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            target/puissance-windows-${{ github.ref_name }}.exe
+            target/puissance-macos-${{ github.ref_name }}
+            target/puissance-ubuntu-${{ github.ref_name }}.bin 
