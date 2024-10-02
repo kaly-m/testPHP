@@ -69,6 +69,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'oracle'
+      - name: intall maven
+        run: mvn install
       - name: version
         run: mvn versions:set -DnewVersion=${{ github.ref_name }} -DgenerateBackupPoms=false
       - name: package
@@ -80,4 +82,4 @@ jobs:
           files: |
             target/puissance-windows-${{ github.ref_name }}.exe
             target/puissance-macos-${{ github.ref_name }}
-            target/puissance-ubuntu-${{ github.ref_name }}.bin 
+            target/puissance-ubuntu-${{ github.ref_name }}.bin
