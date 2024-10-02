@@ -69,6 +69,6 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            testPHP/puissance-windows-${{ github.ref_name }}.exe
-            testPHP/testPHP/puissance-macos-${{ github.ref_name }}
-            ./puissance-ubuntu-${{ github.ref_name }}.bin
+            ./artifacts/puissance-windows.exe-${{ github.ref_name }}
+            ./artifacts/puissance-macos-${{ github.ref_name }}
+            ./artifacts/puissance-ubuntu.bin-${{ github.ref_name }}
