@@ -64,17 +64,6 @@ jobs:
           name: puissance-ubuntu
       - name: checkoutRepository
         uses: actions/checkout@v4
-      - name: setupJava
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'oracle'
-      - name: intall maven
-        run: mvn install
-      - name: version
-        run: mvn versions:set -DnewVersion=${{ github.ref_name }} -DgenerateBackupPoms=false
-      - name: package
-        run: mvn package
       - name: release Creation
         uses: softprops/action-gh-release@v2
         with:
