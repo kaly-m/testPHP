@@ -54,14 +54,17 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: puissance-windows
+          path: ./artifacts
       - name: Download puissance-macos artifact
         uses: actions/download-artifact@master
         with:
           name: puissance-macos
+          path: ./artifacts
       - name: Download puissance-ubuntu artifact
         uses: actions/download-artifact@master
         with:
           name: puissance-ubuntu
+          path: ./artifacts
       - name: checkoutRepository
         uses: actions/checkout@v4
       - name: release Creation
