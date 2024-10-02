@@ -1,0 +1,30 @@
+
+name: deploiment sftp TEST
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  deploy-website:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upload files on FTP server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          # Adresse du serveur
+          server: ftpinfo.iutmontp.univ-montp2.fr
+          # Numéro de port
+          port: 22
+          # Nom d'utilisateur
+          username: ${{ secrets.username }}
+          # Mot de passe
+          password: ${{ secrets.pwd }}
+          # Dossier de destination dans le serveur (absolu, ou relatif...)
+          remote_path: ./public_html/hello_world_site/
+          # Si on utilise sftp
+          sftp_only: true
