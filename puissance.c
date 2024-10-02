@@ -15,5 +15,5 @@ int puissance(int x, int n) {
 int main(int argc, char **argv) {
     int x = atoi(argv[1]);
     int n = atoi(argv[2]);
-    printf(%i, puissance(x, n));
+    printf("%i", puissance(x, n));
 }
